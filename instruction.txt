@@ -1,0 +1,21 @@
+# 安装依赖包
+pip install transformers
+pip install modelscope
+pip install torch
+
+# 下载数据集
+modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_512.jsonl
+modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' pretrain_hq.jsonl
+modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_mini_512.jsonl
+# 或着使用modelscope命令行下载
+python -m modelscope.cli.cli download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_512.jsonl
+python -m modelscope.cli.cli download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_mini_512.jsonl
+python -m modelscope.cli.cli download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' pretrain_hq.jsonl
+
+# 运行训练脚本
+python train.py --train_class 0 # 预训练
+python train.py --train_class 1 # 微调
+
+# 运行tensorboard查看损失曲线
+tensorboard --logdir=runs/0
+tensorboard --logdir=runs/1
