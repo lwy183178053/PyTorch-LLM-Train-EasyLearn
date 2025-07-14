@@ -18,21 +18,21 @@
 4. 获取可直接复用的代码模块用于其他项目  
 
 # 使用教程
-##1.安装依赖包##
-pip install transformers
-pip install modelscope
-pip install torch
+**1.安装依赖包**
+- pip install transformers
+- pip install modelscope
+- pip install torch
 
-##2.下载数据集##
-modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_512.jsonl
-modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' pretrain_hq.jsonl
-modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_mini_512.jsonl
+**2.下载数据集**
+- modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_512.jsonl
+- modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' pretrain_hq.jsonl
+- modelscope download --dataset 'gongjy/minimind_dataset' --local_dir './dataset/' sft_mini_512.jsonl
 
-##3.运行训练脚本##
-python train.py --train_class 0 # 预训练
-python train.py --train_class 1 # 微调
+**3.运行训练脚本**
+- python train.py --train_class 0 # 预训练
+- python train.py --train_class 1 # 微调
 
-##4.运行tensorboard查看损失曲线##
-tensorboard --logdir=runs/0
-tensorboard --logdir=runs/1
+**4.运行tensorboard查看损失曲线**
+- tensorboard --logdir=runs/0
+- tensorboard --logdir=runs/1
 
