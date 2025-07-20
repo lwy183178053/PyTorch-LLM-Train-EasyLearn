@@ -128,17 +128,17 @@ class TransformerBlock(nn.Module):
     def __init__(self,embed_dim, num_heads, hidden_size):
         super().__init__()
         self.attention = MultiAttention(embed_dim, num_heads)
-        self.feed_forward = FeedForward(embed_dim, hidden_size)
-        self.input_layernorm = RMSNorm(embed_dim, eps=1e-6)
         self.attention_layernorm = RMSNorm(embed_dim, eps=1e-6)
+        self.feed_forward = FeedForward(embed_dim, hidden_size)
+        self.feed_forward_layernorm = RMSNorm(embed_dim, eps=1e-6)
 
     def forward(self, x, mask=None):
         residue = x
         x = self.attention(x, mask)
-        x = self.input_layernorm(x + residue)
+        x = self.attention_layernorm(x + residue)
         residue = x
         x = self.feed_forward(x)
-        x = self.attention_layernorm(x + residue)
+        x = self.feed_forward_layernorm(x + residue)
         return x
 
 

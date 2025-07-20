@@ -12,9 +12,9 @@ print(f'Using {device}')
 # 初始化 Tokenizer
 tokenizer = AutoTokenizer.from_pretrained('tokenizer')
 # 模型
-model = MyModel(vocab_size=tokenizer.vocab_size, embed_dim=768, num_layers=8, num_heads=8).to(device)
+model = MyModel(vocab_size=tokenizer.vocab_size, embed_dim=768, num_layers=6, num_heads=8).to(device)
 
-model.load_state_dict(torch.load("model_save/768emb_8layer_8head/sft_model.pth", map_location=device, weights_only=True))
+model.load_state_dict(torch.load("model_save/768emb_12layer_12head/sft_model.pth", map_location=device, weights_only=True))
 model.eval()  # 切换到推理模式
 
 # 设置可复现的随机种子
@@ -30,7 +30,9 @@ def setup_seed(seed):
 
 setup_seed(random.randint(0, 2048))
 #setup_seed(512)  # 如需固定每次输出则换成【固定】的随机种子
-messages = [{"role": "user", "content": "请简要解释一下什么是区块链技术？"}]
+messages = [
+        {"role": "user", "content": "如何用一句话概括《西游记》的主题？"},
+    ]
 
 text = tokenizer.apply_chat_template(
     messages,
@@ -42,7 +44,7 @@ inputs = tokenizer(text, return_tensors="pt",truncation=True).to(device)  # 将�
 
 # 记录开始结束时间
 start_time = time.time()
-response_ids = model.generate(inputs.input_ids, max_length=512, temperature=0.6,top_k=50)[0].tolist()#[0][len(inputs.input_ids[0]):].tolist()
+response_ids = model.generate(inputs.input_ids, max_length=512, temperature=0.7,top_k=50)[0].tolist()#[0][len(inputs.input_ids[0]):].tolist()
 end_time = time.time()
 
 # 计算生成的token数量

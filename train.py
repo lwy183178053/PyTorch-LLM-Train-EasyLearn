@@ -5,11 +5,10 @@ import torch
 import argparse
 import torch.nn as nn
 import torch.utils.data as data
-from torch.utils.data import Subset
 from torch import optim
-from transformers import AutoTokenizer
-from torch.utils.tensorboard import SummaryWriter
 from model import MyModel
+from torch.utils.data import Subset
+from transformers import AutoTokenizer
 from dataset.lm_dataset import PretrainDataset, SFTDataset
 
 
@@ -92,7 +91,9 @@ def init_model(config):
     print(f'Device: {config["device"]}')
     print(f'Train Class: {config["train_class"]}')
     # 初始化 TensorBoard
-    TensorBoard_Writer = SummaryWriter(log_dir=f'runs/{config["train_class"]}')
+    if config['use_tensorboard']:
+        from torch.utils.tensorboard import SummaryWriter
+        TensorBoard_Writer = SummaryWriter(log_dir=f'runs/{config["train_class"]}')
     # 初始化 Tokenizer
     tokenizer = AutoTokenizer.from_pretrained(config['tokenizer_path'])
     print(f'Tokenizer Vocab Size: {tokenizer.vocab_size}')
